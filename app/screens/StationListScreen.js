@@ -2,16 +2,13 @@
 
 import React, { Component } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
+import StationItem from "../components/StationItem.js";
 import { getStations } from "../api.js";
 
 export default class StationListScreen extends Component {
   state = {
     loading: true,
     stations: []
-  };
-
-  renderItem = ({ item }) => {
-    return <Text>{item.id}</Text>;
   };
 
   componentDidMount() {
@@ -26,7 +23,13 @@ export default class StationListScreen extends Component {
         <FlatList
           data={this.state.stations}
           refreshing={this.loading}
-          renderItem={this.renderItem}
+          renderItem={({ item }) => (
+            <StationItem
+              name={item.name}
+              meters={item.meters}
+              status={item.status}
+            />
+          )}
         />
       </View>
     );
