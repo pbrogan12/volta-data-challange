@@ -1,7 +1,5 @@
-import { BASE_API_URL } from "config.js";
-
-export function getStations() {
-  return fetch(BASE_API_URL + "stations")
+function getStations() {
+  return fetch("https://api.voltaapi.com/v1/stations")
     .then(response => response.json())
     .then(responseJson => {
       return responseJson;
@@ -10,3 +8,5 @@ export function getStations() {
       console.error(error);
     });
 }
+
+export { getStations };
