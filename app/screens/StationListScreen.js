@@ -12,6 +12,10 @@ export default class StationListScreen extends Component {
   };
 
   componentDidMount() {
+    this.fetchStations();
+  }
+
+  fetchStations() {
     getStations().then(response => {
       this.setState({ stations: response, loading: false });
     });
@@ -23,6 +27,7 @@ export default class StationListScreen extends Component {
         <FlatList
           data={this.state.stations}
           refreshing={this.loading}
+          keyExtractor={(item, index) => item.id}
           renderItem={({ item }) => (
             <StationItem
               name={item.name}
