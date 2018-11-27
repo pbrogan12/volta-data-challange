@@ -2,6 +2,7 @@
 
 import React, { Component } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
+import MapView, { Marker } from "react-native-maps";
 import StationItem from "../components/StationItem.js";
 import { getStations } from "../api.js";
 
@@ -24,18 +25,38 @@ export default class StationListScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <FlatList
-          data={this.state.stations}
-          refreshing={this.loading}
-          keyExtractor={(item, index) => item.id}
-          renderItem={({ item }) => (
-            <StationItem
-              name={item.name}
-              meters={item.meters}
-              status={item.status}
-            />
-          )}
-        />
+        <View style={{ flex: 1 }}>
+          <MapView
+            showsMyLocationButton={true}
+            showsUserLocation={true}
+            style={StyleSheet.absoluteFillObject}
+          >
+            {this.state.stations.map(marker => (
+              <Marker
+                title={marker.name}
+                description={marker.status}
+                coordinate={{
+                  latitude: marker.location.coordinates[1],
+                  longitude: marker.location.coordinates[0]
+                }}
+              />
+            ))}
+          </MapView>
+        </View>
+        <View style={{ flex: 1 }}>
+          <FlatList
+            data={this.state.stations}
+            refreshing={this.loading}
+            keyExtractor={(item, index) => item.id}
+            renderItem={({ item }) => (
+              <StationItem
+                name={item.name}
+                meters={item.meters}
+                status={item.status}
+              />
+            )}
+          />
+        </View>
       </View>
     );
   }
