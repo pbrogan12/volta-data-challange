@@ -5,6 +5,7 @@ import { View, Text, StyleSheet, FlatList } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import StationItem from "../components/StationItem.js";
 import { getStations } from "../api.js";
+import { getBoundaryBox, filterStationsByDistance } from "../utils.js";
 
 export default class StationListScreen extends Component {
   state = {
@@ -18,7 +19,12 @@ export default class StationListScreen extends Component {
 
   fetchStations() {
     getStations().then(response => {
-      this.setState({ stations: response, loading: false });
+      center_coordinate = {
+        longitude: -121.895,
+        latitude: 37.3394
+      };
+      stations = filterStationsByDistance(response, center_coordinate, 50);
+      this.setState({ stations: stations, loading: false });
     });
   }
 
