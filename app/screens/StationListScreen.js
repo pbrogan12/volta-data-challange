@@ -2,7 +2,7 @@
 
 import React, { Component } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, Circle } from "react-native-maps";
 import StationItem from "../components/StationItem.js";
 import { getStations } from "../api.js";
 import { getBoundaryBox, filterStationsByDistance } from "../utils.js";
@@ -54,6 +54,10 @@ export default class StationListScreen extends Component {
                 }}
               />
             ))}
+            <Circle
+              center={this.state.current_location}
+              radius={50 * 1609.34}
+            />
           </MapView>
         </View>
         <View style={{ flex: 1 }}>
