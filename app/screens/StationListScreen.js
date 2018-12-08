@@ -14,17 +14,24 @@ export default class StationListScreen extends Component {
   };
 
   componentDidMount() {
-    this.fetchStations();
+    this.watchId = navigator.geolocation.watchPosition(position =>
+      this.fetchStations(position)
+    );
   }
 
-  fetchStations() {
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchId);
+  }
+
+  fetchStations(position) {
     getStations().then(response => {
-      center_coordinate = {
-        longitude: -121.895,
-        latitude: 37.3394
-      };
-      stations = filterStationsByDistance(response, center_coordinate, 50);
-      this.setState({ stations: stations, loading: false });
+      // Filter stations by our current position
+      stations = filterStationsByDistance(response, position.coords, 50);
+      this.setState({
+        stations: stations,
+        current_location: position.coords,
+        loading: false
+      });
     });
   }
 
