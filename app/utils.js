@@ -55,4 +55,35 @@ function filterStationsByDistance(stations, center_coord, radius) {
   return stations_in_circle;
 }
 
-export { getBoundaryBox, filterStationsByDistance };
+/**
+ * Given an array of stations compute aggregate statistics
+ * @param {array} stations is the list of stations returned by the Volta API
+ * @return {object} an object that has how many active, needs
+ * service, and decommissioned meters from the given list of stations
+ **/
+function computeStationAggregates(stations) {
+  let num_active_meters = 0;
+  let num_needs_service_meters = 0;
+  let num_decommissioned_meters = 0;
+
+  for (i = 0; i < stations.length; i++) {
+    let station_status = stations[i].status;
+    let num_meters = stations[i].meters.length;
+
+    if (station_status === "active") {
+      num_active_meters += num_meters;
+    } else if (station_status === "needs_service") {
+      num_needs_service_meters += num_meters;
+    } else if (station_status === "decommissioned") {
+      num_decommissioned_meters++;
+    }
+  }
+
+  return {
+    num_active_meters,
+    num_needs_service_meters,
+    num_decommissioned_meters
+  };
+}
+
+export { getBoundaryBox, filterStationsByDistance, computeStationAggregates };
