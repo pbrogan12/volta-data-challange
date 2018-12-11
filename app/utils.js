@@ -31,18 +31,18 @@ function getBoundaryBox(lat, long, radius) {
 
 /**
  * Given an array of stations with longitude and latitude, center coordinate
- * and radius return an array of stations that lie within the circle of the
+ * and radius return a sorted array of stations that lie within the circle of a
  * given radius
  * @param {array} stations is the list of stations returned by the Volta api
  * @param {object} center_coord is the coordinate of the center of the circle
  * @param {number} radius is the radius of the circle in miles
- * @return {array} an array of stations that lie in the specified circle
+ * @return {array} a sorted array of stations that lie in the specified circle
  **/
 function filterStationsByDistance(stations, center_coord, radius) {
   const MILES_TO_METERS_FACTOR = 1609.34;
   stations_in_circle = stations.filter(function(station) {
     // Add the longitude and latitude property to each station so
-    // geolib can find the closest station
+    // geolib can find all stations that lie in circle
     station.longitude = station.location.coordinates[0];
     station.latitude = station.location.coordinates[1];
     return geolib.isPointInCircle(
@@ -52,7 +52,13 @@ function filterStationsByDistance(stations, center_coord, radius) {
     );
   });
 
-  return stations_in_circle;
+  // Sort the stations by distance from the center_coord
+  ordered_stations_in_circle = geolib.orderByDistance(
+    center_coord,
+    stations_in_circle
+  );
+
+  return ordered_stations_in_circle;
 }
 
 /**
