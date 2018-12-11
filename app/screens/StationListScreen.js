@@ -21,6 +21,10 @@ export default class StationListScreen extends Component {
     stations: []
   };
 
+  static navigationOptions = {
+    header: null
+  };
+
   componentDidMount() {
     this.watchId = navigator.geolocation.watchPosition(position =>
       this.fetchStations(position)
