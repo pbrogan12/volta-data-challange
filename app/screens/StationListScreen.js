@@ -61,8 +61,17 @@ export default class StationListScreen extends Component {
     getStations().then(response => {
       // Filter stations by our current position
       stations = filterStationsByDistance(response, position.coords, 50);
+
       // Compute aggregate stats on the stations in range
       station_stats = computeStationAggregates(stations);
+
+      // Get a list of all station ids.
+      // Used to zoom map correctly to fit all markers in viewport
+      station_ids = stations.map(station => station.id);
+      animationTime = setTimeout(() => {
+        this.map.fitToSuppliedMarkers(station_ids, true);
+      }, 100);
+
       this.setState({
         stations: stations,
         current_location: position.coords,
@@ -90,6 +99,7 @@ export default class StationListScreen extends Component {
               <Marker
                 title={marker.name}
                 description={marker.status}
+                identifier={marker.id}
                 coordinate={{
                   latitude: marker.location.coordinates[1],
                   longitude: marker.location.coordinates[0]
