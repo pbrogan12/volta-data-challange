@@ -1,8 +1,19 @@
 /* @flow */
 
 import React, { Component } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
-import MapView, { Marker, Circle } from "react-native-maps";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableHighlight
+} from "react-native";
+import MapView, {
+  Marker,
+  Circle,
+  AnimatedRegion,
+  Animated
+} from "react-native-maps";
 import StationItem from "../components/StationItem.js";
 import MeterAggregate from "../components/MeterAggregate.js";
 import { getStations } from "../api.js";
@@ -35,6 +46,17 @@ export default class StationListScreen extends Component {
     navigator.geolocation.clearWatch(this.watchId);
   }
 
+  moveToLocation = position => {
+    newRegion = {
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+      latitude: position.latitude,
+      longitude: position.longitude
+    };
+
+    this.map.animateToRegion(newRegion, 500);
+  };
+
   fetchStations(position) {
     getStations().then(response => {
       // Filter stations by our current position
@@ -57,6 +79,9 @@ export default class StationListScreen extends Component {
       <View style={styles.container}>
         <View style={{ flex: 1 }}>
           <MapView
+            ref={map => {
+              this.map = map;
+            }}
             showsMyLocationButton={true}
             showsUserLocation={true}
             style={StyleSheet.absoluteFillObject}
@@ -90,12 +115,14 @@ export default class StationListScreen extends Component {
             refreshing={this.loading}
             keyExtractor={(item, index) => item.id}
             renderItem={({ item }) => (
-              <StationItem
-                name={item.name}
-                meters={item.meters}
-                status={item.status}
-                distance={item.distance}
-              />
+              <TouchableHighlight onPress={() => this.moveToLocation(item)}>
+                <StationItem
+                  name={item.name}
+                  meters={item.meters}
+                  status={item.status}
+                  distance={item.distance}
+                />
+              </TouchableHighlight>
             )}
           />
         </View>
