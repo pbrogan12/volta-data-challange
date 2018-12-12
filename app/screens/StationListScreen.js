@@ -94,6 +94,7 @@ export default class StationListScreen extends Component {
                 name={item.name}
                 meters={item.meters}
                 status={item.status}
+                distance={item.distance}
               />
             )}
           />
