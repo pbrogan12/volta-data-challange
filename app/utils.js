@@ -78,8 +78,11 @@ function computeStationAggregates(stations) {
 
     if (station_status === "active") {
       num_active_meters += num_meters;
-    } else if (station_status === "needs_service") {
-      num_needs_service_meters += num_meters;
+    } else if (
+      station_status === "needs service" ||
+      station_status === "under construction"
+    ) {
+      num_needs_service_meters += 1;
     } else if (station_status === "decommissioned") {
       num_decommissioned_meters++;
     }
