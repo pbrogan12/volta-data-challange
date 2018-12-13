@@ -97,6 +97,7 @@ export default class StationListScreen extends Component {
           >
             {this.state.stations.map(marker => (
               <Marker
+                key={marker.id}
                 title={marker.name}
                 description={marker.status}
                 identifier={marker.id}
