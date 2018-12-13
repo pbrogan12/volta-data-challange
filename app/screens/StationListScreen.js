@@ -25,6 +25,11 @@ import {
 
 export default class StationListScreen extends Component {
   state = {
+    current_location: {
+      // Volta HQ
+      latitude: 37.768249,
+      longitude: -122.40181
+    },
     num_active_meters: 0,
     num_needs_service_meters: 0,
     num_decommissioned_meters: 0,
@@ -109,6 +114,8 @@ export default class StationListScreen extends Component {
             ))}
             <Circle
               center={this.state.current_location}
+              strokeColor="#007FFF"
+              fillColor="rgba(0, 127, 255,.1)"
               radius={50 * 1609.34}
             />
           </MapView>
