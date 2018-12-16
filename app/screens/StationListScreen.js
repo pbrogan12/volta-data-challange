@@ -6,7 +6,8 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  TouchableHighlight
+  TouchableHighlight,
+  SafeAreaView
 } from "react-native";
 import MapView, {
   Marker,
@@ -70,7 +71,7 @@ export default class StationListScreen extends Component {
   fetchStations(position) {
     getStations().then(response => {
       // Filter stations by our current position
-      stations = filterStationsByDistance(response, position.coords, 50);
+      stations = filterStationsByDistance(response, position.coords, RADIUS);
 
       // Compute aggregate stats on the stations in range
       station_stats = computeStationAggregates(stations);
@@ -132,7 +133,7 @@ export default class StationListScreen extends Component {
             num_decommissioned_meters={this.state.num_decommissioned_meters}
           />
         </View>
-        <View style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1 }}>
           <FlatList
             data={this.state.stations}
             refreshing={this.loading}
@@ -151,7 +152,7 @@ export default class StationListScreen extends Component {
               </TouchableHighlight>
             )}
           />
-        </View>
+        </SafeAreaView>
       </View>
     );
   }
