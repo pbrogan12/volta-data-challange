@@ -32,19 +32,19 @@ export default class MeterAggregate extends Component {
 const styles = StyleSheet.create({
   active_stations: {
     flex: 1,
-    paddingLeft: 5,
+    alignItems: "center",
     backgroundColor: "#32B76C"
   },
 
   needs_service_stations: {
     flex: 1,
-    paddingLeft: 5,
+    alignItems: "center",
     backgroundColor: "#FAA030"
   },
 
   decommissioned_stations: {
     flex: 1,
-    paddingLeft: 5,
+    alignItems: "center",
     backgroundColor: "#EE2C38"
   },
 
