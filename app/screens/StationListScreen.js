@@ -23,6 +23,11 @@ import {
   computeStationAggregates
 } from "../utils.js";
 
+// The radius of the range circle in miles
+// TODO: Make this user changeable
+const RADIUS = 50;
+const METERS_IN_MILE = 1609.34;
+
 export default class StationListScreen extends Component {
   state = {
     current_location: {
@@ -116,7 +121,7 @@ export default class StationListScreen extends Component {
               center={this.state.current_location}
               strokeColor="#007FFF"
               fillColor="rgba(0, 127, 255,.1)"
-              radius={50 * 1609.34}
+              radius={RADIUS * METERS_IN_MILE}
             />
           </MapView>
         </View>
