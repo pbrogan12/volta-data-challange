@@ -1,5 +1,7 @@
+import { BASE_API_URL } from "./config.js";
+
 function getStations() {
-  return fetch("https://api.voltaapi.com/v1/stations")
+  return fetch(BASE_API_URL + "stations")
     .then(response => response.json())
     .then(responseJson => {
       return responseJson;
