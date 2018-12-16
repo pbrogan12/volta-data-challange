@@ -138,7 +138,10 @@ export default class StationListScreen extends Component {
             refreshing={this.loading}
             keyExtractor={(item, index) => item.id}
             renderItem={({ item }) => (
-              <TouchableHighlight onPress={() => this.moveToLocation(item)}>
+              <TouchableHighlight
+                underlayColor="grey"
+                onPress={() => this.moveToLocation(item)}
+              >
                 <StationItem
                   name={item.name}
                   meters={item.meters}
